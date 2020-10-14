@@ -60,7 +60,7 @@ class PTF extends Component {
 
 const WithedComponent = withRouter(PTF);
 
-class SimpleReactRouterDom extends Component {
+class Examples extends Component {
   handleClick = text => {
     return () => {
       this.props.history.push(text);
@@ -76,4 +76,4 @@ class SimpleReactRouterDom extends Component {
   }
 }
 
-export default SimpleReactRouterDom;
+export default Examples;

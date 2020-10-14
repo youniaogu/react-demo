@@ -73,7 +73,7 @@ const ConnectedCounter = connect(
   }
 )(Counter);
 
-export default class SimpleReactRedux extends Component {
+class Examples extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -86,3 +86,5 @@ export default class SimpleReactRedux extends Component {
     );
   }
 }
+
+export default Examples;

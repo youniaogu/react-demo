@@ -1,0 +1,11 @@
+.wrapper {
+  position: relative;
+  overflow-y: auto;
+  border: 1px solid black;
+}
+
+.offsetWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+}

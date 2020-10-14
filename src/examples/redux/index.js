@@ -49,7 +49,7 @@ const ConnectedComponent = connect(
   }
 )(Counter);
 
-export default class SimpleRedux extends Component {
+class Examples extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -58,3 +58,5 @@ export default class SimpleRedux extends Component {
     );
   }
 }
+
+export default Examples;
