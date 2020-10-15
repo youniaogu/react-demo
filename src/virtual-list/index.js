@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./index.module.css";
 
 class VirtualList extends Component {
   constructor(props) {
@@ -33,7 +32,9 @@ class VirtualList extends Component {
   handleScroll = e => {
     const { list, cache, itemHeight } = this.props;
     const scrollTop = this.node.scrollTop;
-    const startIndex = Math.floor(scrollTop / itemHeight);
+    const index = scrollTop / itemHeight;
+    const startIndex = Math.floor(index);
+    const offsetIndex = index % 1 > 0 ? 1 : 0;
 
     if (startIndex >= cache) {
       this.startIndex = startIndex - cache;
@@ -41,10 +42,10 @@ class VirtualList extends Component {
       this.startIndex = 0;
     }
 
-    if (startIndex >= list.length - (this.visibleCount + cache + 1)) {
+    if (startIndex >= list.length - (this.visibleCount + cache + offsetIndex)) {
       this.endIndex = list.length;
     } else {
-      this.endIndex = startIndex + this.visibleCount + cache + 1;
+      this.endIndex = startIndex + this.visibleCount + cache + offsetIndex;
     }
 
     this.updateVisibleData();
@@ -52,19 +53,29 @@ class VirtualList extends Component {
 
   render() {
     const { visibleData, startOffset, offsetHeight } = this.state;
-    const { height, renderItem } = this.props;
+    const { height, renderItem, className, style } = this.props;
 
     return (
       <div
-        style={{ height: height }}
-        className={styles.wrapper}
+        style={{
+          ...style,
+          position: "relative",
+          overflowY: "auto",
+          height: height
+        }}
+        className={className}
         ref={node => (this.node = node)}
         onScroll={this.handleScroll}
       >
         <div style={{ height: this.totalHeight }}>
           <div
-            className={styles.offsetWrapper}
-            style={{ top: startOffset, height: offsetHeight }}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: startOffset,
+              height: offsetHeight
+            }}
           >
             {visibleData.map(renderItem)}
           </div>
