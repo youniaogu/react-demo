@@ -7,6 +7,8 @@ class Examples extends Component {
     super();
 
     this.state = {
+      length: 10000,
+      cache: 1,
       showList: false,
       showVirtualList: false
     };
@@ -15,12 +17,26 @@ class Examples extends Component {
     });
   }
 
+  handleLengthChange = e => {
+    this.setState({ length: +e.currentTarget.value });
+  };
+  handleCacheChange = e => {
+    this.setState({ cache: +e.currentTarget.value });
+  };
+
+  createList = () => {
+    this.list = new Array(this.state.length).fill(null).map((_, index) => {
+      return index + 1;
+    });
+  };
   handleListCreate = () => {
+    this.createList();
     this.setState({
       showList: true
     });
   };
   handleVirtualListCreate = () => {
+    this.createList();
     this.setState({
       showVirtualList: true
     });
@@ -35,11 +51,32 @@ class Examples extends Component {
   };
 
   render() {
+    const { length, cache } = this.state;
+
     return (
       <Fragment>
         <h1>virtual_list-demo</h1>
-        <button onClick={this.handleListCreate}>create list</button>
-        <span> </span>
+        <label>length：</label>
+        <input
+          min="0"
+          type="number"
+          value={length}
+          onChange={this.handleLengthChange}
+        />
+        <span>　</span>
+        <label>cache：</label>
+        <input
+          min="0"
+          type="number"
+          value={cache}
+          onChange={this.handleCacheChange}
+        />
+        <span>　</span>
+
+        <button onClick={this.handleListCreate} title="cache useless">
+          create list
+        </button>
+        <span>　</span>
         <button onClick={this.handleVirtualListCreate}>
           create virtual-list
         </button>
@@ -50,7 +87,7 @@ class Examples extends Component {
             {this.state.showVirtualList && (
               <VirtualList
                 className={styles.virtualList}
-                cache={2}
+                cache={cache}
                 list={this.list}
                 itemHeight={60}
                 height={600}
